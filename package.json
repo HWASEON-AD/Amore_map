@@ -8,5 +8,17 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hammin0808/Amore_map.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hammin0808/Amore_map/issues"
+  },
+  "homepage": "https://github.com/hammin0808/Amore_map#readme",
+  "description": ""
 }
