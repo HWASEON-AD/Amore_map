@@ -246,3 +246,32 @@ body {
   to   { transform: translate(-50%, -50%) translateY(-15px); }
 }
 
+
+.app-container {
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  /* min-height: 100vh; <= 삭제 또는 주석 처리 */
+}
+
+.start-navigation-btn {
+  margin: 20px auto 10px auto; /* 위 여백 30px → 20px, 아래도 10px만 */
+}
+
+.app-footer {
+  padding: 10px 0 20px;  /* 기존: 20px 0 40px → 줄임 */
+  font-size: 11px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: start; /* 또는 center, 원하시면 */
+  padding: 20px 0; /* 화면 위·아래에 여유 줄 수 있음 */
+}
