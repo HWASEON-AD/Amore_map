@@ -22,22 +22,29 @@ fetch('map-floor1.json')
     renderDoors(data.doors);
   });
 
-function renderStudios(studios) {
-  studios.forEach(s => {
-    const el = document.createElement('div');
-    el.className = `studio ${s.type}`;
-    el.dataset.id = s.id;
-    el.dataset.x = s.x;
-    el.dataset.y = s.y;
-    el.style.left = s.x + '%';
-    el.style.top = s.y + '%';
-    el.textContent = s.id;
-    el.addEventListener('click', () => handleStudioClick(el));
-    floorPlan.appendChild(el);
-  });
-
+  function renderStudios(studios) {
+    studios.forEach(s => {
+      const el = document.createElement('div');
+      el.className = 'studio';
+      el.dataset.id = s.id;
+      el.dataset.x = s.x;
+      el.dataset.y = s.y;
+      el.style.left = s.x + '%';
+      el.style.top = s.y + '%';
+      el.textContent = s.id;
   
-}
+      // 🔴 색상 코드 직접 적용
+      if (s.color) {
+        el.style.backgroundColor = s.color;
+        el.style.border = '1px solid #aaa'; // 필요 시 대비용 테두리
+        el.style.color = '#000';            // 가독성을 위해 텍스트 색 조절
+      }
+  
+      el.addEventListener('click', () => handleStudioClick(el));
+      floorPlan.appendChild(el);
+    });
+  }
+  
 
 function renderDoors(doors) {
   doors.forEach(d => {
@@ -112,11 +119,11 @@ function updateBtn() {
   if (startNode && endNode) {
     btn.disabled = false;
     btn.classList.add('enabled');
-    btn.textContent = '경로 안내 시작';
+    btn.textContent = '스튜디오 찾기';
   } else {
     btn.disabled = true;
     btn.classList.remove('enabled');
-    btn.textContent = '목적지를 선택해주세요';
+    btn.textContent = '도착지를 선택해주세요';
   }
 }
 
@@ -223,13 +230,23 @@ function drawPath(pathIds) {
 
 }
 
+function clearPath() {
+  const svg = document.getElementById('pathOverlay');
+  svg.querySelectorAll('path.route, path.arrowAnim').forEach(p => p.remove());
+}
 
 function handleStudioClick(studioEl) {
   if (selectedStudios.length === 2) {
-    selectedStudios.forEach(el => el.classList.remove('selected'));
+    selectedStudios.forEach(el => {
+      el.classList.remove('selected', 'blinking');
+      el.style.animation = '';
+    });
     selectedStudios = [];
     startNode = null;
     endNode = null;
+    locationName.textContent = '선택 필요';
+    document.getElementById('destinationLocationName').textContent = '선택 필요';
+    clearPath();
     updateBtn();
   }
 
@@ -242,7 +259,7 @@ function handleStudioClick(studioEl) {
       startNode = id;
       locationName.textContent = id;
 
-      // 캐릭터를 그 위치로 이동시키고 보여주기
+      // 캐릭터 이동
       const pos = getPosition(id);
       const planWidth = floorPlan.clientWidth;
       const planHeight = floorPlan.clientHeight;
@@ -252,10 +269,16 @@ function handleStudioClick(studioEl) {
       char.style.display = 'block';
     } else if (!endNode) {
       endNode = id;
+      document.getElementById('destinationLocationName').textContent = id;
+
+      // 출발지 + 도착지 동시에 깜빡이게 처리
+      addBlinkingClassSync(selectedStudios);
     }
     updateBtn();
   }
 }
+
+
 
 
 async function moveCharacter(pathIds) {
@@ -290,5 +313,18 @@ function animateMove(el, targetX, targetY, duration) {
       else resolve();
     }
     requestAnimationFrame(step);
+  });
+}
+
+function addBlinkingClassSync(elements) {
+  elements.forEach(el => {
+    el.classList.remove('blinking');
+  });
+
+  // 강제로 리플로우 발생 → 애니메이션 동기화
+  void document.body.offsetWidth;
+
+  elements.forEach(el => {
+    el.classList.add('blinking');
   });
 }

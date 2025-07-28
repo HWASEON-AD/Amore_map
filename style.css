@@ -15,29 +15,36 @@ body {
   display: flex;
   align-items: center;
   background: #ffffff;
-  padding: 15px;
+  padding:20px;
+  padding-bottom: 25px;
+  padding-top: 25px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-radius: 16px;
 }
 
 .app-logo-img {
   max-width: 200px;  /* 적당한 크기로 조정 */
   height: auto;
   display: block;
+    /* 추가: 가로만 살짝 줄이기 */
+  transform: scaleX(0.95);
+  transform-origin: left center; /* 왼쪽 기준으로 줄어들게 */
 }
 
 /* ================================
    2. 메인 타이틀 & 부제목
 ================================ */
 .app-title {
-  font-size: 26px;
-  font-weight: 800;
-  margin: 24px 20px 8px;
+  font-size: 23px;
+  font-weight: 2900;
+  margin: 24px 23px 8px;
 }
 
 .app-subtitle {
   font-size: 14px;
+  font-weight: 480;
   color: #666;
-  margin: 0 20px 20px;
+  margin: 0 25px 20px;
 }
 
 /* ================================
@@ -132,13 +139,13 @@ body {
 .start-navigation-btn {
   display: block;
   margin: 30px auto 0 auto; /* 가운데 정렬 */
-  background: #002C5F;
+  background: linear-gradient(90deg, #4a90e2, #357ABD);
   color: #fff;
   font-weight: bold;
-  padding: 16px 24px;
+  padding: 15px 18px;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 12px;
+  font-size: 12px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   width: max-content;
 }
@@ -233,7 +240,7 @@ body {
 
 .character {
   position: absolute;
-  width: 25px; /* 원하시는 크기 */
+  width: 23px; /* 원하시는 크기 */
   height: auto;
   pointer-events: none;
   transform: translate(-50%, -50%); /* 중심 기준 위치 */
@@ -243,7 +250,7 @@ body {
 
 @keyframes bounce {
   from { transform: translate(-50%, -50%) translateY(0); }
-  to   { transform: translate(-50%, -50%) translateY(-15px); }
+  to   { transform: translate(-50%, -50%) translateY(-8px); }
 }
 
 
@@ -253,7 +260,7 @@ body {
   background: #fff;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  /* min-height: 100vh; <= 삭제 또는 주석 처리 */
+  border-radius: 16px;
 }
 
 .start-navigation-btn {
@@ -274,4 +281,54 @@ body {
   justify-content: center;
   align-items: start; /* 또는 center, 원하시면 */
   padding: 20px 0; /* 화면 위·아래에 여유 줄 수 있음 */
+}
+
+
+
+@keyframes gentleBlink {
+  0%, 100% { background-color: #27ae60; }
+  50%      { background-color: #ffffff; }
+}
+
+.studio.blinking {
+  animation: gentleBlink 1.6s ease-in-out infinite;
+  color: #000 !important;
+}
+
+.location-pair {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* ✅ 수직 가운데 정렬 */
+  gap: 75px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 15px 30px;
+  
+  border: 1px solid #e3e8f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.location-block {
+  flex: 1;
+  min-width: 100px; /* ✅ 최소 너비 확보 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.location-title {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.location-name {
+  font-weight: 700;
+  font-size: 18px;
+  color: #002C5F;
+  line-height: 1.4;
 }
