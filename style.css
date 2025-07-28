@@ -255,13 +255,14 @@ body {
 
 
 .app-container {
-  max-width: 430px;
+  max-width: 430px;     /* 아이폰 미니~프로까지 고려한 최적값 */
   width: 100%;
-  background: #fff;
   margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
   border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
+
 
 .start-navigation-btn {
   margin: 20px auto 10px auto; /* 위 여백 30px → 20px, 아래도 10px만 */
@@ -283,8 +284,6 @@ body {
   padding: 20px 0; /* 화면 위·아래에 여유 줄 수 있음 */
 }
 
-
-
 @keyframes gentleBlink {
   0%, 100% { background-color: #27ae60; }
   50%      { background-color: #ffffff; }
@@ -297,38 +296,14 @@ body {
 
 .location-pair {
   display: flex;
-  justify-content: space-between;
-  align-items: center; /* ✅ 수직 가운데 정렬 */
-  gap: 75px;
-  background: #ffffff;
   border-radius: 12px;
-  padding: 15px 30px;
-  
-  border: 1px solid #e3e8f0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  text-align: center;
+
 }
 
 .location-block {
   flex: 1;
-  min-width: 100px; /* ✅ 최소 너비 확보 */
-  display: flex;
+  min-width: 100%; /* ✅ 최소 너비 확보 */
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
 
-
-.location-title {
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-
-.location-name {
-  font-weight: 700;
-  font-size: 18px;
-  color: #002C5F;
-  line-height: 1.4;
 }
