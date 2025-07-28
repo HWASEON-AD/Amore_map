@@ -1,0 +1,248 @@
+/* ================================
+   0. 기본 설정
+================================ */
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #f8f9fa; /* 전체 배경을 아주 연한 그레이 */
+  color: #002C5F;
+}
+
+/* ================================
+   1. 상단 헤더 & 로고
+================================ */
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.app-logo-img {
+  max-width: 200px;  /* 적당한 크기로 조정 */
+  height: auto;
+  display: block;
+}
+
+/* ================================
+   2. 메인 타이틀 & 부제목
+================================ */
+.app-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 24px 20px 8px;
+}
+
+.app-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0 20px 20px;
+}
+
+/* ================================
+   3. 현재 위치 카드
+================================ */
+.current-location-info {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 20px 20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e3e8f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.location-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.location-title {
+  font-size: 13px;
+  color: #999;
+}
+
+.location-name {
+  font-weight: 700;
+  font-size: 17px;
+  margin-top: 2px;
+  color: #002C5F;
+}
+
+/* ================================
+   4. 도면 영역
+================================ */
+.floor-plan {
+  position: relative;  /* 부모 좌표계 */
+  height: 400px;
+  margin: 0 20px 20px;
+  background: #fff;
+  border: 1px solid #e0e4eb;
+  border-radius: 12px;
+}
+
+/* 공통 요소(스튜디오/문/노드) 좌표 설정 */
+.studio, .door, .node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.path-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* 마우스 이벤트 통과 */
+}
+
+
+/* ================================
+   5. 스튜디오 스타일
+================================ */
+.studio {
+  width: 35px;
+  height: 35px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+.studio.orange {
+  background: #f9c87a;
+  border: 1px solid #e0a840;
+  color: #000;
+}
+
+.studio.blue {
+  background: #4a90e2;
+  border: 1px solid #2d6cb0;
+}
+
+/* ================================
+   6. 버튼
+================================ */
+.start-navigation-btn {
+  display: block;
+  margin: 30px auto 0 auto; /* 가운데 정렬 */
+  background: #002C5F;
+  color: #fff;
+  font-weight: bold;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: max-content;
+}
+
+.start-navigation-btn.enabled {
+  background: linear-gradient(90deg, #4a90e2, #357ABD);
+}
+
+/* ================================
+   7. 푸터
+================================ */
+.app-footer {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  padding: 20px 0 40px;
+}
+
+.studio.selected {
+  outline: 3px solid #27ae60; /* 선택된 스튜디오를 초록색 테두리 */
+}
+
+/* ================================
+   8. 반응형
+================================ */
+@media (max-width: 480px) {
+  .app-title {
+    font-size: 22px;
+  }
+  .start-navigation-btn {
+    position: relative; /* 기본 상태 */
+    z-index: 10;        /* 혹시 다른 SVG나 div가 덮고 있으면 추가 */
+  }
+  
+}
+
+
+/* ================================
+   노드 스타일 추가
+================================ */
+.node {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+  
+  border-radius: 50%;              /* 원 모양 */
+  z-index: 15;                     /* 스튜디오보다 위에 보이도록 */
+  cursor: default;
+}
+
+.node-label {
+  position: absolute;
+  top: -18px;                      /* 원 위쪽에 라벨 표시 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1px 3px;
+  border-radius: 3px;
+  color: #333;
+  white-space: nowrap;
+  pointer-events: none;            /* 클릭 불가 */
+}
+
+
+.door {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;          /* 원 모양 */
+  z-index: 14;
+  cursor: default;
+}
+
+.door-label {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  background: rgba(255,255,255,0.8);
+  padding: 1px 3px;
+  border-radius: 3px;
+  color: #333;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+
+.character {
+  position: absolute;
+  width: 25px; /* 원하시는 크기 */
+  height: auto;
+  pointer-events: none;
+  transform: translate(-50%, -50%); /* 중심 기준 위치 */
+  animation: bounce 0.6s infinite alternate ease-in-out;
+  z-index: 20; /* 스튜디오보다 위에 표시 */
+}
+
+@keyframes bounce {
+  from { transform: translate(-50%, -50%) translateY(0); }
+  to   { transform: translate(-50%, -50%) translateY(-15px); }
+}
+
