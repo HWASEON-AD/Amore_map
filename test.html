@@ -1,49 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>디지털팩토리</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디지털팩토리</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="app-container">
-
+    
     <!-- 상단 헤더 -->
     <header class="app-header">
-      <img src="Amore.jpg" alt="AMOREPACIFIC 로고" class="app-logo-img">
+      <img src="Amore.png" alt="AMOREPACIFIC 로고" class="app-logo-img" />
     </header>
     
-
     <!-- 본문 타이틀 -->
     <h1 class="app-title">DIGITAL FACTORY</h1>
     <p class="app-subtitle">16F 디지털팩토리 스튜디오 위치</p>
 
     <main class="screen active">
-      <!-- 현재 위치 표시 -->
-      <div class="current-location-info">
-        <div class="location-icon"></div>
-        <div class="location-text">
-          <div class="location-pair">
-            <div class="location-block">
-              <div class="location-title">출발 위치</div>
-              <div class="location-name" id="currentLocationName">선택 필요</div>
-            </div>
-            <div class="location-block">
-              <div class="location-title">도착 위치</div>
-              <div class="location-name" id="destinationLocationName">선택 필요</div>
-            </div>
-          </div>
-          
+      
+      <!-- 출발 / 도착 위치 박스 -->
+      <div class="current-location-info1">
+        <div>
+          <div class="location-title">출발 위치</div>
+          <div class="location-name" id="currentLocationName">선택 필요</div>
+        </div>
+        <div>
+          <div class="location-title">도착 위치</div>
+          <div class="location-name" id="destinationLocationName">선택 필요</div>
         </div>
       </div>
+      
 
       <!-- 도면 영역 -->
       <div id="floorPlan" class="floor-plan">
-        <img id="character" src="dolphin.png" class="character" style="display:none;">
+        <img id="character" src="dolphin.png" class="character" style="display: none;" />
         <svg id="pathOverlay" class="path-overlay"></svg>
       </div>
-      
 
       <!-- 경로 버튼 -->
       <button class="start-navigation-btn" id="startNavBtn" disabled>
@@ -54,7 +48,7 @@
     <!-- 하단 푸터 -->
     <footer class="app-footer">
       © AMOREPACIFIC 16F Digital Factory
-      <div style =padding:7px;>
+      <div style="margin-top: 6px;">
         © Made By HWASEON ..... @hammin0808
       </div>
     </footer>

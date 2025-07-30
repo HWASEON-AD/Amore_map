@@ -1,99 +1,145 @@
 /* ================================
    0. 기본 설정
 ================================ */
+
+@font-face {
+  font-family: 'Arita-Light';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'Arita-Medium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'SeoulHangangM';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulHangangM.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
 body {
-  margin: 0;
-  font-family: 'Noto Sans KR', sans-serif;
-  background: #f8f9fa; /* 전체 배경을 아주 연한 그레이 */
-  color: #002C5F;
+  font-family: 'Arita-Medium', sans-serif;
+  background: #f8f9fa;
+  color: #195895;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+
 }
 
 /* ================================
-   1. 상단 헤더 & 로고
+   1. 컨테이너
+================================ */
+.container {
+  width: 100%;
+  max-width: 430px;        /* 최대 크기 제한 */
+  margin: 0 auto;
+}
+
+.app-container {
+  width: 430px;            /* 브라우저 폭의 90% 사용 */
+  max-width: 430px;         /* 너무 커지지 않게 제한 */
+  margin: 40px auto;
+  padding-bottom: 4vh;
+  border-radius: 2vw;
+  background: #fff;
+  box-shadow: 0 0 1vw rgba(0,0,0,0.05);
+}
+
+
+
+/* ================================
+   2. 헤더 & 로고
 ================================ */
 .app-header {
   display: flex;
   align-items: center;
   background: #ffffff;
-  padding:20px;
-  padding-bottom: 25px;
-  padding-top: 25px;
+  padding: 25px 20px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   border-radius: 16px;
 }
 
 .app-logo-img {
-  max-width: 200px;  /* 적당한 크기로 조정 */
+  max-width: 200px;
+  margin-left: 10px;
   height: auto;
   display: block;
-    /* 추가: 가로만 살짝 줄이기 */
   transform: scaleX(0.95);
-  transform-origin: left center; /* 왼쪽 기준으로 줄어들게 */
+  transform-origin: left center;
 }
 
 /* ================================
-   2. 메인 타이틀 & 부제목
+   3. 타이틀 & 부제목
 ================================ */
 .app-title {
+  font-family: 'Arita-Bold', sans-serif;
   font-size: 23px;
-  font-weight: 2900;
-  margin: 24px 23px 8px;
+  font-weight: 900;
+  margin: 24px 29px 8px;
+  
 }
 
 .app-subtitle {
   font-size: 14px;
   font-weight: 480;
   color: #666;
-  margin: 0 25px 20px;
+  margin: 0 30px 20px;
 }
 
 /* ================================
-   3. 현재 위치 카드
+   4. 위치 카드
 ================================ */
-.current-location-info {
+.current-location-info1 {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px;
+  padding: 20px 80px;        /* vh, vw 대신 px */
+  text-align:center;
   background: #ffffff;
   border-radius: 12px;
-  padding: 16px;
-  margin: 0 20px 20px;
-  display: flex;
-  align-items: center;
   border: 1px solid #e3e8f0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.location-icon {
-  font-size: 20px;
-  margin-right: 10px;
+.location-box {
+  flex: 1;
+  text-align: center;
 }
 
 .location-title {
+  font-weight: 500px;
   font-size: 13px;
-  color: #999;
+  color: #777;
+  margin-bottom: 4px;
+  padding-bottom:2px;
+  
 }
 
 .location-name {
+  font-family: 'Arita-Bold', sans-serif;
   font-weight: 700;
-  font-size: 17px;
-  margin-top: 2px;
-  color: #002C5F;
+  font-size: 16px;
+  color: #0a2558;
+  display: inline-block;
+  min-width: 60px; /* 가장 긴 텍스트 기준 고정 */
 }
 
+
+
 /* ================================
-   4. 도면 영역
+   6. 도면
 ================================ */
 .floor-plan {
-  position: relative;  /* 부모 좌표계 */
-  height: 400px;
-  margin: 0 20px 20px;
+  position: relative;
+  height: 500px;
+  margin: 15px;
   background: #fff;
   border: 1px solid #e0e4eb;
   border-radius: 12px;
-}
-
-/* 공통 요소(스튜디오/문/노드) 좌표 설정 */
-.studio, .door, .node {
-  position: absolute;
-  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .path-overlay {
@@ -102,191 +148,35 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* 마우스 이벤트 통과 */
+  pointer-events: none;
 }
 
-
 /* ================================
-   5. 스튜디오 스타일
+   7. 스튜디오
 ================================ */
+.studio, .door, .node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 .studio {
-  width: 35px;
-  height: 35px;
+  font-family: 'Arita-Bold', sans-serif;
+  width: 43px;
+  height: 43px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: bold;
-  color: #fff;
   cursor: pointer;
-}
-
-.studio.orange {
-  background: #f9c87a;
-  border: 1px solid #e0a840;
-  color: #000;
-}
-
-.studio.blue {
-  background: #4a90e2;
-  border: 1px solid #2d6cb0;
-}
-
-/* ================================
-   6. 버튼
-================================ */
-.start-navigation-btn {
-  display: block;
-  margin: 30px auto 0 auto; /* 가운데 정렬 */
-  background: linear-gradient(90deg, #4a90e2, #357ABD);
-  color: #fff;
-  font-weight: bold;
-  padding: 15px 18px;
-  border: none;
-  border-radius: 12px;
-  font-size: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  width: max-content;
-}
-
-.start-navigation-btn.enabled {
-  background: linear-gradient(90deg, #4a90e2, #357ABD);
-}
-
-/* ================================
-   7. 푸터
-================================ */
-.app-footer {
-  text-align: center;
-  font-size: 12px;
-  color: #999;
-  padding: 20px 0 40px;
+  background-color: white;
+  border: 2px solid #D9D9D9;     /* 테두리 회색 */
+  border-width:2.8px;
 }
 
 .studio.selected {
-  outline: 3px solid #27ae60; /* 선택된 스튜디오를 초록색 테두리 */
-}
-
-/* ================================
-   8. 반응형
-================================ */
-@media (max-width: 480px) {
-  .app-title {
-    font-size: 22px;
-  }
-  .start-navigation-btn {
-    position: relative; /* 기본 상태 */
-    z-index: 10;        /* 혹시 다른 SVG나 div가 덮고 있으면 추가 */
-  }
-  
-}
-
-
-/* ================================
-   노드 스타일 추가
-================================ */
-.node {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%);
-  
-  border-radius: 50%;              /* 원 모양 */
-  z-index: 15;                     /* 스튜디오보다 위에 보이도록 */
-  cursor: default;
-}
-
-.node-label {
-  position: absolute;
-  top: -18px;                      /* 원 위쪽에 라벨 표시 */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 1px 3px;
-  border-radius: 3px;
-  color: #333;
-  white-space: nowrap;
-  pointer-events: none;            /* 클릭 불가 */
-}
-
-
-.door {
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%);
-
-  border-radius: 50%;          /* 원 모양 */
-  z-index: 14;
-  cursor: default;
-}
-
-.door-label {
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  background: rgba(255,255,255,0.8);
-  padding: 1px 3px;
-  border-radius: 3px;
-  color: #333;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-
-.character {
-  position: absolute;
-  width: 23px; /* 원하시는 크기 */
-  height: auto;
-  pointer-events: none;
-  transform: translate(-50%, -50%); /* 중심 기준 위치 */
-  animation: bounce 0.6s infinite alternate ease-in-out;
-  z-index: 20; /* 스튜디오보다 위에 표시 */
-}
-
-@keyframes bounce {
-  from { transform: translate(-50%, -50%) translateY(0); }
-  to   { transform: translate(-50%, -50%) translateY(-8px); }
-}
-
-
-.app-container {
-  max-width: 430px;     /* 아이폰 미니~프로까지 고려한 최적값 */
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
-
-
-.start-navigation-btn {
-  margin: 20px auto 10px auto; /* 위 여백 30px → 20px, 아래도 10px만 */
-}
-
-.app-footer {
-  padding: 10px 0 20px;  /* 기존: 20px 0 40px → 줄임 */
-  font-size: 11px;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: start; /* 또는 center, 원하시면 */
-  padding: 20px 0; /* 화면 위·아래에 여유 줄 수 있음 */
-}
-
-@keyframes gentleBlink {
-  0%, 100% { background-color: #27ae60; }
-  50%      { background-color: #ffffff; }
+  outline: 3px solid #27ae60;
 }
 
 .studio.blinking {
@@ -294,16 +184,90 @@ body {
   color: #000 !important;
 }
 
-.location-pair {
-  display: flex;
-  border-radius: 12px;
-  text-align: center;
+
+/* ================================
+   8. 노드 & 문
+================================ */
+.node {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  cursor: default;
 
 }
 
-.location-block {
-  flex: 1;
-  min-width: 100%; /* ✅ 최소 너비 확보 */
-  flex-direction: column;
 
+
+.wall {
+  position: absolute;
+  background: #ccc;
+  border: 2px solid #2a4d8f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wall-label {
+  font-size: 14px;
+  color: #2a4d8f;
+  font-weight: bold;
+  font-family: 'Arita-Bold', sans-serif;
+}
+
+
+
+/* ================================
+   9. 캐릭터
+================================ */
+.character {
+  position: absolute;
+  width: 30px;
+  height: auto;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: bounce 0.6s infinite alternate ease-in-out;
+  z-index: 20;
+}
+
+/* ================================
+   10. 버튼
+================================ */
+.start-navigation-btn {
+  font-family: 'Arita-Bold', sans-serif;
+  display: block;
+  margin: 30px auto 10px;
+  background: linear-gradient(90deg, #4a90e2, #357ABD);
+  color: #fff;
+  font-weight: bold;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: max-content;
+}
+
+/* ================================
+   11. 푸터
+================================ */
+.app-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #9999;
+  margin-top: 30px;
+}
+
+
+
+/* ================================
+   13. 애니메이션
+================================ */
+@keyframes bounce {
+  from { transform: translate(-50%, -50%) translateY(0); }
+  to   { transform: translate(-50%, -50%) translateY(-8px); }
+}
+
+@keyframes gentleBlink {
+  0%, 100% { background-color: #27ae60; }
+  50%      { background-color: #ffffff; }
 }

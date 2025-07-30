@@ -9,60 +9,57 @@ let allEdges = [];
 let studios = [];
 let selectedStudios = []; // 선택된 스튜디오 DOM 관리용
 
+
 fetch('map-floor1.json')
   .then(res => res.json())
   .then(data => {
     studios = data.studios;
     allNodes = data.nodes;
     allEdges = data.edges;
-
+    renderWalls(data.walls);   // 반드시 호출
     renderStudios(data.studios);
-    renderWalls(data.walls);
     renderNodes(data.nodes);
-    renderDoors(data.doors);
   });
 
   function renderStudios(studios) {
     studios.forEach(s => {
-      const el = document.createElement('div');
-      el.className = 'studio';
-      el.dataset.id = s.id;
-      el.dataset.x = s.x;
-      el.dataset.y = s.y;
-      el.style.left = s.x + '%';
-      el.style.top = s.y + '%';
+      const el = document.createElement("div");
+      el.className = "studio";
+      el.dataset.id = s.id;              // 선택 이벤트용
+      el.style.left = s.x + "%";
+      el.style.top = s.y + "%";
       el.textContent = s.id;
   
-      // 🔴 색상 코드 직접 적용
-      if (s.color) {
-        el.style.backgroundColor = s.color;
-        el.style.border = '1px solid #aaa'; // 필요 시 대비용 테두리
-        el.style.color = '#000';            // 가독성을 위해 텍스트 색 조절
+      floorPlan.appendChild(el);
+      el.addEventListener('click', () => handleStudioClick(el)); // ✅ 클릭 이벤트 추가
+      floorPlan.appendChild(el); // ✅ container → floorPlan 으로 수정 (정확한 DOM 참조)
+    });
+  }
+  
+  
+  function renderWalls(walls) {
+    walls.forEach(w => {
+      const el = document.createElement('div');
+      el.className = 'wall';
+      el.style.left = w.x + '%';
+      el.style.top = w.y + '%';
+      el.style.width = w.width + '%';
+      el.style.height = w.height + '%';
+      el.style.transform = 'translate(-50%, -50%)';
+  
+      // 엘리베이터면 텍스트 추가
+      if (w.type === 'elevator') {
+        const label = document.createElement('span');
+        label.className = 'wall-label';
+        label.textContent = 'E'; // "엘리베이터" 대신 'E'
+        el.appendChild(label);
       }
   
-      el.addEventListener('click', () => handleStudioClick(el));
       floorPlan.appendChild(el);
     });
   }
   
-
-function renderDoors(doors) {
-  doors.forEach(d => {
-    const el = document.createElement('div');
-    el.className = 'door';
-    el.style.left = d.x + '%';
-    el.style.top = d.y + '%';
-
-    /*
-    const label = document.createElement('div');
-    label.className = 'door-label';
-    label.textContent = d.id;
-    el.appendChild(label);
-    */
-
-    floorPlan.appendChild(el);
-  });
-}
+  
 
 
 function renderNodes(nodes) {
@@ -75,19 +72,7 @@ function renderNodes(nodes) {
   });
 }
 
-function renderWalls(walls) {
-  const svg = document.getElementById('pathOverlay');
-  walls.forEach(w => {
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', w.x1 + '%');
-    line.setAttribute('y1', w.y1 + '%');
-    line.setAttribute('x2', w.x2 + '%');
-    line.setAttribute('y2', w.y2 + '%');
-    line.setAttribute('stroke', '#555');
-    line.setAttribute('stroke-width', '3');
-    svg.appendChild(line);
-  });
-}
+
 
 function handleStudioClick(studioEl) {
   // 2개 선택되어 있으면 초기화
@@ -280,7 +265,6 @@ function handleStudioClick(studioEl) {
 
 
 
-
 async function moveCharacter(pathIds) {
   const char = document.getElementById('character');
   const planWidth = floorPlan.clientWidth;
@@ -290,12 +274,21 @@ async function moveCharacter(pathIds) {
     const pos = getPosition(pathIds[i]);
     if (!pos) continue;
 
+    // 문 열기 로직이 있다면 여기서 체크
+    const doorEl = document.querySelector(`.door-container[data-id="${pathIds[i]}"]`);
+    if (doorEl) {
+      doorEl.classList.add('open');
+      setTimeout(() => doorEl.classList.remove('open'), 1200);
+    }
+
+    // 퍼센트를 실제 px로 변환
     const targetX = (pos.x / 100) * planWidth;
     const targetY = (pos.y / 100) * planHeight;
 
-    await animateMove(char, targetX, targetY, 600); // 각 구간 0.6초
+    await animateMove(char, targetX, targetY, 600); // 하나씩 이동
   }
 }
+
 
 function animateMove(el, targetX, targetY, duration) {
   return new Promise(resolve => {
@@ -315,6 +308,7 @@ function animateMove(el, targetX, targetY, duration) {
     requestAnimationFrame(step);
   });
 }
+
 
 function addBlinkingClassSync(elements) {
   elements.forEach(el => {
