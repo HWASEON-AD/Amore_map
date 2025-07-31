@@ -273,7 +273,26 @@ function clearPath() {
 }
 
 function handleStudioClick(studioEl) {
-  // 기존 선택 초기화
+  const id = studioEl.dataset.id;
+  const char = document.getElementById('character');
+
+  // ✅ 이미 출발지로 선택된 경우 → 해제
+  if (startNode === id && !endNode) {
+    studioEl.classList.remove('start-selected', 'blinking');
+    startNode = null;
+    selectedStudios = [];
+    locationName.textContent = '-';
+    document.getElementById('destinationLocationName').textContent = '-';
+    clearPath();
+
+    // 캐릭터 숨김
+    char.style.display = 'none';
+
+    updateBtn();
+    return;
+  }
+
+  // ✅ 출발지와 도착지 모두 선택된 상태 → 초기화
   if (selectedStudios.length === 2) {
     selectedStudios.forEach(el => {
       el.classList.remove('start-selected', 'end-selected', 'blinking');
@@ -282,38 +301,39 @@ function handleStudioClick(studioEl) {
     selectedStudios = [];
     startNode = null;
     endNode = null;
-    locationName.textContent = '선택 필요';
-    document.getElementById('destinationLocationName').textContent = '선택 필요';
+    locationName.textContent = '-';
+    document.getElementById('destinationLocationName').textContent = '-';
     clearPath();
+
+    // 캐릭터 숨김
+    char.style.display = 'none';
+
     updateBtn();
   }
 
-  // 새로운 선택 처리
+  // ✅ 새 선택
   if (!selectedStudios.includes(studioEl)) {
-    const id = studioEl.dataset.id;
-
-    // 출발지일 때
     if (!startNode) {
+      // 출발지 선택
       studioEl.classList.add('start-selected');
       startNode = id;
       locationName.textContent = id;
 
-      // 캐릭터 이동
+      // 캐릭터 출발 위치에 표시
       const pos = getPosition(id);
-      const planWidth = floorPlan.clientWidth;
-      const planHeight = floorPlan.clientHeight;
-      const char = document.getElementById('character');
-      char.style.left = (pos.x / 100) * planWidth + 'px';
-      char.style.top = (pos.y / 100) * planHeight + 'px';
-      char.style.display = 'block';
-    }
-    // 도착지일 때
-    else if (!endNode) {
+      if (pos) {
+        const planWidth = floorPlan.clientWidth;
+        const planHeight = floorPlan.clientHeight;
+        char.style.left = (pos.x / 100) * planWidth + 'px';
+        char.style.top = (pos.y / 100) * planHeight + 'px';
+        char.style.display = 'block';   // ✅ 여기서 반드시 표시
+      }
+    } else if (!endNode) {
+      // 도착지 선택
       studioEl.classList.add('end-selected');
       endNode = id;
       document.getElementById('destinationLocationName').textContent = id;
 
-      // 출발지 + 도착지 동시에 깜빡이게 처리
       addBlinkingClassSync(selectedStudios.concat(studioEl));
     }
 
