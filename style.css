@@ -18,7 +18,6 @@
 }
 
 
-
 body {
   font-family: 'Arita-Medium', sans-serif;
   background: #f8f9fa;
@@ -34,19 +33,21 @@ body {
 ================================ */
 .container {
   width: 100%;
-  max-width: 430px;        /* 최대 크기 제한 */
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
 }
 
 .app-container {
-  width: 430px;            /* 브라우저 폭의 90% 사용 */
-  max-width: 430px;         /* 너무 커지지 않게 제한 */
-  margin: 40px auto;
-  padding-bottom: 4vh;
-  border-radius: 2vw;
+  width: 430px;          /* 기준 사이즈 고정 */
+  max-width: 430px;
   background: #fff;
-  box-shadow: 0 0 1vw rgba(0,0,0,0.05);
+  border-radius: 16px;
+  margin: 20px auto;
+  transform-origin: top center;
 }
+
 
 
 
@@ -96,7 +97,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin: 15px;
-  padding: 20px 80px;        /* vh, vw 대신 px */
+  padding: 20px 60px;        /* vh, vw 대신 px */
   text-align:center;
   background: #ffffff;
   border-radius: 12px;
@@ -154,7 +155,7 @@ body {
 /* ================================
    7. 스튜디오
 ================================ */
-.studio, .door, .node {
+.studio, .node {
   position: absolute;
   transform: translate(-50%, -50%);
 }
@@ -193,27 +194,45 @@ body {
   height: 5px;
   border-radius: 50%;
   cursor: default;
-
 }
 
 
 
 .wall {
   position: absolute;
-  background: #ccc;
-  border: 2px solid #2a4d8f;
+  background: rgba(118, 118, 118, 0.1);    /* 주황색 계열 */
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 }
 
 .wall-label {
   font-size: 14px;
-  color: #2a4d8f;
+  color: #195895;
   font-weight: bold;
   font-family: 'Arita-Bold', sans-serif;
 }
 
+.door-container {
+  position: absolute;
+  box-sizing: border-box;
+}
+
+/* top 그룹 색상 */
+.door-container.top {
+  background: rgba(25, 88, 149, 0.2);    /* 파란색 계열 */
+}
+
+/* bottom 그룹 색상 */
+.door-container.bottom {
+  background: rgba(118, 118, 118, 0.1);    /* 주황색 계열 */
+}
+
+/* bottom 그룹 색상 */
+.door-container.middle {
+  background: rgba(201, 144, 58, 0.2);    /* 주황색 계열 */
+}
 
 
 /* ================================
@@ -255,6 +274,7 @@ body {
   font-size: 11px;
   color: #9999;
   margin-top: 30px;
+  padding-bottom:40px;
 }
 
 

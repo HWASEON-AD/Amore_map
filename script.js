@@ -7,7 +7,7 @@ let endNode = null;
 let allNodes = [];
 let allEdges = [];
 let studios = [];
-let selectedStudios = []; // 선택된 스튜디오 DOM 관리용
+let selectedStudios = [];
 
 
 fetch('map-floor1.json')
@@ -16,51 +16,28 @@ fetch('map-floor1.json')
     studios = data.studios;
     allNodes = data.nodes;
     allEdges = data.edges;
-    renderWalls(data.walls);   // 반드시 호출
+    renderDoors(data.doors);
+    renderWalls(data.walls);
     renderStudios(data.studios);
     renderNodes(data.nodes);
   });
+
 
   function renderStudios(studios) {
     studios.forEach(s => {
       const el = document.createElement("div");
       el.className = "studio";
-      el.dataset.id = s.id;              // 선택 이벤트용
+      el.dataset.id = s.id;              
       el.style.left = s.x + "%";
       el.style.top = s.y + "%";
       el.textContent = s.id;
   
       floorPlan.appendChild(el);
-      el.addEventListener('click', () => handleStudioClick(el)); // ✅ 클릭 이벤트 추가
-      floorPlan.appendChild(el); // ✅ container → floorPlan 으로 수정 (정확한 DOM 참조)
+      el.addEventListener('click', () => handleStudioClick(el));
+      floorPlan.appendChild(el); // 
     });
   }
   
-  
-  function renderWalls(walls) {
-    walls.forEach(w => {
-      const el = document.createElement('div');
-      el.className = 'wall';
-      el.style.left = w.x + '%';
-      el.style.top = w.y + '%';
-      el.style.width = w.width + '%';
-      el.style.height = w.height + '%';
-      el.style.transform = 'translate(-50%, -50%)';
-  
-      // 엘리베이터면 텍스트 추가
-      if (w.type === 'elevator') {
-        const label = document.createElement('span');
-        label.className = 'wall-label';
-        label.textContent = 'E'; // "엘리베이터" 대신 'E'
-        el.appendChild(label);
-      }
-  
-      floorPlan.appendChild(el);
-    });
-  }
-  
-  
-
 
 function renderNodes(nodes) {
   nodes.forEach(n => {
@@ -72,6 +49,48 @@ function renderNodes(nodes) {
   });
 }
 
+function renderDoors(doors) {
+  doors.forEach(d => {
+    const door = document.createElement('div');
+    door.className = `door-container ${d.group}`;  // top / bottom 클래스 추가
+    door.dataset.id = d.id;
+    door.style.left = d.x + '%';
+    door.style.top = d.y + '%';
+    door.style.width = d.width + '%';
+    door.style.height = d.height + '%';
+
+    const leftPanel = document.createElement('div');
+    leftPanel.className = 'door-panel left';
+
+    const rightPanel = document.createElement('div');
+    rightPanel.className = 'door-panel right';
+
+    door.appendChild(leftPanel);
+    door.appendChild(rightPanel);
+    floorPlan.appendChild(door);
+  });
+}
+
+
+function renderWalls(walls) {
+  walls.forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'wall';
+    el.style.left = w.x + '%';
+    el.style.top = w.y + '%';
+    el.style.width = w.width + '%';
+    el.style.height = w.height + '%';
+    el.style.transform = 'translate(-50%, -50%)';
+
+    if (w.type === 'elevator') {
+      const label = document.createElement('span');
+      label.className = 'wall-label';
+      label.textContent = 'E';
+      el.appendChild(label);
+    }
+    floorPlan.appendChild(el);
+  });
+}
 
 
 function handleStudioClick(studioEl) {
@@ -84,12 +103,12 @@ function handleStudioClick(studioEl) {
     updateBtn();
   }
 
-  // 새 선택
+
   if (!selectedStudios.includes(studioEl)) {
     studioEl.classList.add('selected');
     selectedStudios.push(studioEl);
 
-    const id = studioEl.dataset.id; // 스튜디오 id 자체를 경로 탐색에 사용
+    const id = studioEl.dataset.id;
     if (!startNode) {
       startNode = id;
       locationName.textContent = id;
@@ -99,6 +118,7 @@ function handleStudioClick(studioEl) {
     updateBtn();
   }
 }
+
 
 function updateBtn() {
   if (startNode && endNode) {
@@ -111,6 +131,7 @@ function updateBtn() {
     btn.textContent = '도착지를 선택해주세요';
   }
 }
+
 
 btn.addEventListener('click', async () => {
   if (startNode && endNode) {
@@ -274,13 +295,6 @@ async function moveCharacter(pathIds) {
     const pos = getPosition(pathIds[i]);
     if (!pos) continue;
 
-    // 문 열기 로직이 있다면 여기서 체크
-    const doorEl = document.querySelector(`.door-container[data-id="${pathIds[i]}"]`);
-    if (doorEl) {
-      doorEl.classList.add('open');
-      setTimeout(() => doorEl.classList.remove('open'), 1200);
-    }
-
     // 퍼센트를 실제 px로 변환
     const targetX = (pos.x / 100) * planWidth;
     const targetY = (pos.y / 100) * planHeight;
@@ -288,7 +302,6 @@ async function moveCharacter(pathIds) {
     await animateMove(char, targetX, targetY, 600); // 하나씩 이동
   }
 }
-
 
 function animateMove(el, targetX, targetY, duration) {
   return new Promise(resolve => {
@@ -299,15 +312,18 @@ function animateMove(el, targetX, targetY, duration) {
     const startTime = performance.now();
 
     function step(now) {
-      const t = Math.min((now - startTime) / duration, 1);
+      const t = Math.min((now - startTime) / duration, 1); // 0~1
       el.style.left = startX + dx * t + 'px';
       el.style.top = startY + dy * t + 'px';
+
       if (t < 1) requestAnimationFrame(step);
       else resolve();
     }
+
     requestAnimationFrame(step);
   });
 }
+
 
 
 function addBlinkingClassSync(elements) {
@@ -322,3 +338,13 @@ function addBlinkingClassSync(elements) {
     el.classList.add('blinking');
   });
 }
+
+
+function scaleApp() {
+  const container = document.querySelector('.app-container');
+  const scale = Math.min(window.innerWidth / 360, 1);
+  container.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener('resize', scaleApp);
+window.addEventListener('load', scaleApp);
