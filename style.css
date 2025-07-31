@@ -48,9 +48,6 @@ body {
   transform-origin: top center;
 }
 
-
-
-
 /* ================================
    2. 헤더 & 로고
 ================================ */
@@ -129,6 +126,28 @@ body {
 }
 
 
+/* 출발 위치 스타일 */
+.startLocationName {
+  color: #195895;   /* 파란색 */
+  font-size: 16px;
+  font-family: 'Arita-Bold', sans-serif;
+  font-weight: 700;
+  display: inline-block;
+  min-width: 60px; /* 가장 긴 텍스트 기준 고정 */
+}
+
+/* 도착 위치 스타일 */
+.endLocationName {
+  color: #0a2558;
+  font-size: 16px;
+  font-family: 'Arita-Bold', sans-serif;
+  
+  font-weight: 700;
+  font-size: 16px;
+  display: inline-block;
+  min-width: 60px; /* 가장 긴 텍스트 기준 고정 */
+}
+
 
 /* ================================
    6. 도면
@@ -162,13 +181,14 @@ body {
 
 .studio {
   font-family: 'Arita-Bold', sans-serif;
+  color: black;    /* ✅ 글씨 색을 검은색으로 */
   width: 43px;
   height: 43px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
   cursor: pointer;
   background-color: white;
@@ -176,14 +196,27 @@ body {
   border-width:2.8px;
 }
 
-.studio.selected {
-  outline: 3px solid #27ae60;
+
+/* 출발지 선택 시 글자색 변경 */
+.studio.start-selected {
+  outline: 3px solid #195895; /* 첫 번째 색 */
+  background-color: #195895;  /* 블록 색 */
+  color: #ffffff;             /* 글자색 하얀색 */
 }
+
+/* 도착지 선택 시 글자색 변경 */
+.studio.end-selected {
+  outline: 3px solid #001c58; /* 두 번째 색 */
+  background-color: #001c58;  /* 블록 색 */
+  color: #ffffff;             /* 글자색 하얀색 */
+}
+
 
 .studio.blinking {
   animation: gentleBlink 1.6s ease-in-out infinite;
-  color: #000 !important;
 }
+
+
 
 
 /* ================================
@@ -195,8 +228,6 @@ body {
   border-radius: 50%;
   cursor: default;
 }
-
-
 
 .wall {
   position: absolute;
@@ -221,17 +252,12 @@ body {
 
 /* top 그룹 색상 */
 .door-container.top {
-  background: rgba(25, 88, 149, 0.2);    /* 파란색 계열 */
+  background: rgba(25, 88, 149, 0.15);    /* 파란색 계열 */
 }
 
 /* bottom 그룹 색상 */
 .door-container.bottom {
   background: rgba(118, 118, 118, 0.1);    /* 주황색 계열 */
-}
-
-/* bottom 그룹 색상 */
-.door-container.middle {
-  background: rgba(201, 144, 58, 0.2);    /* 주황색 계열 */
 }
 
 
@@ -255,7 +281,7 @@ body {
   font-family: 'Arita-Bold', sans-serif;
   display: block;
   margin: 30px auto 10px;
-  background: linear-gradient(90deg, #4a90e2, #357ABD);
+  background: linear-gradient(90deg, #195895, #001c58);
   color: #fff;
   font-weight: bold;
   padding: 15px 20px;
@@ -287,7 +313,23 @@ body {
   to   { transform: translate(-50%, -50%) translateY(-8px); }
 }
 
-@keyframes gentleBlink {
-  0%, 100% { background-color: #27ae60; }
+/* 출발지 깜빡임 */
+@keyframes gentleBlinkStart {
+  0%, 100% { background-color: #195895; }
   50%      { background-color: #ffffff; }
+}
+
+/* 도착지 깜빡임 */
+@keyframes gentleBlinkEnd {
+  0%, 100% { background-color: #001c58; }
+  50%      { background-color: #ffffff; }
+}
+
+/* 클래스 적용 */
+.studio.start-selected.blinking {
+  animation: gentleBlinkStart 1s ease-in-out infinite;
+}
+
+.studio.end-selected.blinking {
+  animation: gentleBlinkEnd 1s ease-in-out infinite;
 }

@@ -95,17 +95,19 @@ function renderWalls(walls) {
 
 function handleStudioClick(studioEl) {
   // 2개 선택되어 있으면 초기화
-  if (selectedStudios.length === 2) {
-    selectedStudios.forEach(el => el.classList.remove('selected'));
-    selectedStudios = [];
-    startNode = null;
-    endNode = null;
-    updateBtn();
+  if (!startNode) {
+    startNode = id;
+    studioEl.classList.add('start-selected');   // 출발지 선택 클래스
+    locationName.textContent = id;
+  } else if (!endNode) {
+    endNode = id;
+    studioEl.classList.add('end-selected');     // 도착지 선택 클래스
   }
+  
 
 
   if (!selectedStudios.includes(studioEl)) {
-    studioEl.classList.add('selected');
+    studioEl.classList.add('start-selected');
     selectedStudios.push(studioEl);
 
     const id = studioEl.dataset.id;
@@ -136,10 +138,31 @@ function updateBtn() {
 btn.addEventListener('click', async () => {
   if (startNode && endNode) {
     const pathIds = calculatePath(startNode, endNode);
-    drawPath(pathIds);       // 빨간 경로 그리기
-    await moveCharacter(pathIds); // 경로 따라 이동
+
+    // 캐릭터 초기화 (사라지게 처리)
+    const char = document.getElementById('character');
+    char.style.display = 'none';
+
+    // 출발지 좌표로 바로 이동
+    const pos = getPosition(startNode);
+    if (pos) {
+      const planWidth = floorPlan.clientWidth;
+      const planHeight = floorPlan.clientHeight;
+      char.style.left = (pos.x / 100) * planWidth + 'px';
+      char.style.top = (pos.y / 100) * planHeight + 'px';
+    }
+
+    // 빨간 경로 그리기
+    drawPath(pathIds);
+
+    // 캐릭터 다시 나타나기
+    char.style.display = 'block';
+
+    // 경로 따라 이동
+    await moveCharacter(pathIds);
   }
 });
+
 
 
 function calculatePath(startId, endId) {
@@ -242,9 +265,10 @@ function clearPath() {
 }
 
 function handleStudioClick(studioEl) {
+  // 기존 선택 초기화
   if (selectedStudios.length === 2) {
     selectedStudios.forEach(el => {
-      el.classList.remove('selected', 'blinking');
+      el.classList.remove('start-selected', 'end-selected', 'blinking');
       el.style.animation = '';
     });
     selectedStudios = [];
@@ -256,12 +280,13 @@ function handleStudioClick(studioEl) {
     updateBtn();
   }
 
+  // 새로운 선택 처리
   if (!selectedStudios.includes(studioEl)) {
-    studioEl.classList.add('selected');
-    selectedStudios.push(studioEl);
-
     const id = studioEl.dataset.id;
+
+    // 출발지일 때
     if (!startNode) {
+      studioEl.classList.add('start-selected');
       startNode = id;
       locationName.textContent = id;
 
@@ -273,13 +298,18 @@ function handleStudioClick(studioEl) {
       char.style.left = (pos.x / 100) * planWidth + 'px';
       char.style.top = (pos.y / 100) * planHeight + 'px';
       char.style.display = 'block';
-    } else if (!endNode) {
+    }
+    // 도착지일 때
+    else if (!endNode) {
+      studioEl.classList.add('end-selected');
       endNode = id;
       document.getElementById('destinationLocationName').textContent = id;
 
       // 출발지 + 도착지 동시에 깜빡이게 처리
-      addBlinkingClassSync(selectedStudios);
+      addBlinkingClassSync(selectedStudios.concat(studioEl));
     }
+
+    selectedStudios.push(studioEl);
     updateBtn();
   }
 }
