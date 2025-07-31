@@ -121,16 +121,24 @@ function handleStudioClick(studioEl) {
   }
 }
 
-
 function updateBtn() {
-  if (startNode && endNode) {
-    btn.disabled = false;
-    btn.classList.add('enabled');
-    btn.textContent = '스튜디오 찾기';
-  } else {
+  // 1. 아무것도 선택 안 됐을 때
+  if (!startNode) {
     btn.disabled = true;
-    btn.classList.remove('enabled');
-    btn.textContent = '도착지를 선택해주세요';
+    btn.style.background = '#999999';
+    btn.textContent = "출발지를 선택해주세요";
+
+  // 2. 출발지만 선택됐을 때
+  } else if (startNode && !endNode) {
+    btn.disabled = true;
+    btn.style.background = '#999999';
+    btn.textContent = "도착지를 선택해주세요";
+
+  // 3. 출발지 + 도착지 다 선택됐을 때
+  } else if (startNode && endNode) {
+    btn.disabled = false;
+    btn.style.background = "linear-gradient(90deg, #195895, #001c58)";
+    btn.textContent = "스튜디오 찾기";
   }
 }
 

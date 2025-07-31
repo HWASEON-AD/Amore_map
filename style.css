@@ -277,11 +277,12 @@ body {
 /* ================================
    10. 버튼
 ================================ */
+/* 기본(비활성화) 상태 */
 .start-navigation-btn {
   font-family: 'Arita-Bold', sans-serif;
   display: block;
   margin: 30px auto 10px;
-  background: linear-gradient(90deg, #195895, #001c58);
+  background: #999999;  /* 기본 회색 */
   color: #fff;
   font-weight: bold;
   padding: 15px 20px;
@@ -290,6 +291,7 @@ body {
   font-size: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   width: max-content;
+  cursor: not-allowed;   /* 선택 전에는 클릭 못하게 */
 }
 
 /* ================================
@@ -327,9 +329,9 @@ body {
 
 /* 클래스 적용 */
 .studio.start-selected.blinking {
-  animation: gentleBlinkStart 1s ease-in-out infinite;
+  animation: gentleBlinkStart 1.6s ease-in-out infinite;
 }
 
 .studio.end-selected.blinking {
-  animation: gentleBlinkEnd 1s ease-in-out infinite;
+  animation: gentleBlinkEnd 1.6s ease-in-out infinite;
 }
