@@ -1,84 +1,32 @@
-/*******************************************************
- * Hwaseon Navigator UI — CSS 정리판
- * -----------------------------------------------------
- * - 토큰(:root 변수) 도입 → 색/폰트/라운드/쉐도우 일원화
- * - 폰트 @font-face 정리(Arita-Bold 추가, Medium/Light 포함)
- * - 레이아웃/컴포넌트/상태/애니메이션 순으로 재배열
- * - 사소한 오류 수정: font-weight 500px → 500
- *******************************************************/
-
 /* ================================
-   0. 토큰 & 베이스(Reset-lite)
+   0. 기본 설정
 ================================ */
-:root {
-  /* Color tokens (Hwaseon) */
-  --bg:        #f8f9fa;
-  --panel:     #ffffff;
-  --ink:       #195895;   /* 브랜드 블루 */
-  --ink-2:     #0a2558;   /* 딥 블루 */
-  --muted:     #666666;
-  --line:      #e3e8f0;
-  --line-2:    #e0e4eb;
-  --accent-1:  #195895;   /* 출발 */
-  --accent-2:  #001c58;   /* 도착 */
-  --gray-1:    #999999;
-  --gray-2:    #d9d9d9;
-
-  /* Typography */
-  --font-base: 'Arita-Medium', system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR', sans-serif;
-  --font-bold: 'Arita-Bold',   'Arita-Medium', sans-serif;
-  --font-light:'Arita-Light',  'Arita-Medium', sans-serif;
-
-  /* Sizing & Radius & Shadow */
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-md: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-/* 폰트 페이스 */
 @font-face {
   font-family: 'Arita-Light';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
 }
 @font-face {
   font-family: 'Arita-Medium';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
 }
-/* ★ 실제 사용되던 Arita-Bold 추가 */
-@font-face {
-  font-family: 'Arita-Bold';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Medium.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-}
-/* 보조 폰트 */
 @font-face {
   font-family: 'SeoulHangangM';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulHangangM.woff') format('woff');
-  font-weight: 500;
+  font-weight: normal;
   font-style: normal;
 }
 
-/* 베이스 */
-* { box-sizing: border-box; }
-html, body { height: 100%; }
 body {
-  font-family: var(--font-base);
-  background: var(--bg);
-  color: var(--ink);
+  font-family: 'Arita-Medium', sans-serif;
+  background: #f8f9fa;
+  color: #195895;
   display: flex;
   justify-content: center;
   align-items: start;
-  margin: 0;
 }
 
 /* ================================
-   1. 컨테이너 레이아웃
+   1. 컨테이너
 ================================ */
 .container {
   width: 100%;
@@ -89,13 +37,12 @@ body {
 }
 
 .app-container {
-  width: 430px;                 /* 기준 디바이스 폭 고정 */
+  width: 430px; /* 기준 사이즈 고정 */
   max-width: 430px;
-  background: var(--panel);
-  border-radius: var(--radius-lg);
+  background: #fff;
+  border-radius: 16px;
   margin: 20px auto;
-  transform-origin: top center; /* JS scaleApp 대상 */
-  box-shadow: var(--shadow-sm);
+  transform-origin: top center;
 }
 
 /* ================================
@@ -104,10 +51,10 @@ body {
 .app-header {
   display: flex;
   align-items: center;
-  background: var(--panel);
+  background: #ffffff;
   padding: 25px 20px;
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-radius: 16px;
 }
 
 .app-logo-img {
@@ -123,16 +70,15 @@ body {
    3. 타이틀 & 부제목
 ================================ */
 .app-title {
-  font-family: var(--font-bold);
+  font-family: 'Arita-Bold', sans-serif;
   font-size: 23px;
   font-weight: 900;
   margin: 24px 29px 8px;
-  color: var(--ink);
 }
 
 .app-subtitle {
   font-size: 14px;
-  font-weight: 500;     /* ★ 500px → 500 */
+  font-weight: 480;
   color: #666;
   margin: 0 30px 20px;
 }
@@ -144,12 +90,12 @@ body {
   display: flex;
   justify-content: space-between;
   margin: 15px;
-  padding: 20px 60px;    /* vh/vw 대신 고정 px */
+  padding: 20px 60px; /* vh, vw 대신 px */
   text-align: center;
-  background: var(--panel);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-md);
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e3e8f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .location-box {
@@ -158,58 +104,76 @@ body {
 }
 
 .location-title {
-  font-weight: 500;      /* ★ px 제거 */
+  font-weight: 500px;
   font-size: 13px;
   color: #777;
   margin-bottom: 4px;
   padding-bottom: 2px;
 }
 
-.location-name,
-.startLocationName,
-.endLocationName {
-  font-family: var(--font-bold);
+.location-name {
+  font-family: 'Arita-Bold', sans-serif;
   font-weight: 700;
   font-size: 16px;
+  color: #0a2558;
   display: inline-block;
-  min-width: 60px;       /* 가장 긴 텍스트 기준 */
+  min-width: 60px; /* 가장 긴 텍스트 기준 고정 */
 }
 
-/* 출발/도착 컬러 구분 */
-.location-name      { color: var(--ink-2); }
-.startLocationName  { color: var(--accent-1); }
-.endLocationName    { color: var(--ink-2); }
+/* 출발 위치 스타일 */
+.startLocationName {
+  color: #195895; /* 파란색 */
+  font-size: 16px;
+  font-family: 'Arita-Bold', sans-serif;
+  font-weight: 700;
+  display: inline-block;
+  min-width: 60px; /* 가장 긴 텍스트 기준 고정 */
+}
+
+/* 도착 위치 스타일 */
+.endLocationName {
+  color: #0a2558;
+  font-size: 16px;
+  font-family: 'Arita-Bold', sans-serif;
+  font-weight: 700;
+  display: inline-block;
+  min-width: 60px; /* 가장 긴 텍스트 기준 고정 */
+}
 
 /* ================================
-   5. 도면/오버레이
+   6. 도면
 ================================ */
 .floor-plan {
   position: relative;
   height: 500px;
   margin: 15px;
-  background: var(--panel);
-  border: 1px solid var(--line-2);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  background: #fff;
+  border: 1px solid #e0e4eb;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .path-overlay {
   position: absolute;
-  inset: 0;                 /* top/left/width/height 대체 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 
 /* ================================
-   6. 스튜디오 & 노드
+   7. 스튜디오
 ================================ */
-.studio, .node {
+.studio,
+.node {
   position: absolute;
   transform: translate(-50%, -50%);
 }
 
 .studio {
-  font-family: var(--font-bold);
-  color: #000;                         /* 라벨 검정 */
+  font-family: 'Arita-Bold', sans-serif;
+  color: black; /* ✅ 글씨 색을 검은색으로 */
   width: 43px;
   height: 43px;
   border-radius: 6px;
@@ -217,43 +181,44 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: bold;
   cursor: pointer;
-  background: #fff;
-  border: 2.8px solid var(--gray-2);
+  background-color: white;
+  border: 2px solid #D9D9D9; /* 테두리 회색 */
+  border-width: 2.8px;
 }
 
-/* 선택 상태 */
+/* 출발지 선택 시 글자색 변경 */
 .studio.start-selected {
-  outline: 3px solid var(--accent-1);
-  background-color: var(--accent-1);
-  color: #fff;
+  outline: 3px solid #195895; /* 첫 번째 색 */
+  background-color: #195895; /* 블록 색 */
+  color: #ffffff; /* 글자색 하얀색 */
 }
 
+/* 도착지 선택 시 글자색 변경 */
 .studio.end-selected {
-  outline: 3px solid var(--accent-2);
-  background-color: var(--accent-2);
-  color: #fff;
+  outline: 3px solid #001c58; /* 두 번째 색 */
+  background-color: #001c58; /* 블록 색 */
+  color: #ffffff; /* 글자색 하얀색 */
 }
 
-.studio.blinking { animation: gentleBlink 1.6s ease-in-out infinite; }
+.studio.blinking {
+  animation: gentleBlink 1.6s ease-in-out infinite;
+}
 
-/* 노드 (경로 보조 표식) */
+/* ================================
+   8. 노드 & 문
+================================ */
 .node {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--ink);   /* 시인성 보강 */
-  opacity: 0.6;
   cursor: default;
 }
 
-/* ================================
-   7. 벽 & 문
-================================ */
 .wall {
   position: absolute;
-  background: rgba(118, 118, 118, 0.1);
+  background: rgba(118, 118, 118, 0.1); /* 주황색 계열 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,9 +227,9 @@ body {
 
 .wall-label {
   font-size: 14px;
-  color: var(--ink);
-  font-weight: 700;
-  font-family: var(--font-bold);
+  color: #195895;
+  font-weight: bold;
+  font-family: 'Arita-Bold', sans-serif;
 }
 
 .door-container {
@@ -272,17 +237,18 @@ body {
   box-sizing: border-box;
 }
 
-/* 그룹별 구분 색 */
-.door-container.top    { background: rgba(25, 88, 149, 0.15); }  /* 파랑 */
-.door-container.bottom { background: rgba(118,118,118,0.10); }  /* 연회색 */
+/* top 그룹 색상 */
+.door-container.top {
+  background: rgba(25, 88, 149, 0.15); /* 파란색 계열 */
+}
 
-/* 필요 시 도어 패널 스타일(옵션)
-.door-panel.left  {}
-.door-panel.right {}
-*/
+/* bottom 그룹 색상 */
+.door-container.bottom {
+  background: rgba(118, 118, 118, 0.1); /* 주황색 계열 */
+}
 
 /* ================================
-   8. 캐릭터
+   9. 캐릭터
 ================================ */
 .character {
   position: absolute;
@@ -295,64 +261,64 @@ body {
 }
 
 /* ================================
-   9. 버튼
+   10. 버튼
 ================================ */
+/* 기본(비활성화) 상태 */
 .start-navigation-btn {
-  font-family: var(--font-bold);
+  font-family: 'Arita-Bold', sans-serif;
   display: block;
   margin: 30px auto 10px;
+  background: #999999; /* 기본 회색 */
+  color: #fff;
+  font-weight: bold;
   padding: 15px 20px;
   border: none;
   border-radius: 12px;
   font-size: 15px;
-  color: #fff;
-  width: max-content;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  background: var(--gray-1);       /* 비활성 기본 */
-  cursor: not-allowed;
-}
-
-/* 활성화 상태는 JS에서 클래스 토글하거나 style로 지정해도 OK */
-.start-navigation-btn.is-active {
-  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-  cursor: pointer;
+  width: max-content;
+  cursor: not-allowed; /* 선택 전에는 클릭 못하게 */
 }
 
 /* ================================
-   10. 푸터
+   11. 푸터
 ================================ */
 .app-footer {
   text-align: center;
   font-size: 11px;
-  color: #999;
+  color: #9999;
   margin-top: 30px;
   padding-bottom: 40px;
 }
 
 /* ================================
-   11. 애니메이션
+   13. 애니메이션
 ================================ */
 @keyframes bounce {
-  from { transform: translate(-50%, -50%) translateY(0); }
-  to   { transform: translate(-50%, -50%) translateY(-8px); }
+  from {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  to {
+    transform: translate(-50%, -50%) translateY(-8px);
+  }
 }
 
-/* 출발/도착 깜빡임 — 개별 키프레임 */
+/* 출발지 깜빡임 */
 @keyframes gentleBlinkStart {
-  0%, 100% { background-color: var(--accent-1); }
+  0%, 100% { background-color: #195895; }
   50%      { background-color: #ffffff; }
 }
+
+/* 도착지 깜빡임 */
 @keyframes gentleBlinkEnd {
-  0%, 100% { background-color: var(--accent-2); }
+  0%, 100% { background-color: #001c58; }
   50%      { background-color: #ffffff; }
 }
 
-/* 적용 클래스 */
-.studio.start-selected.blinking { animation: gentleBlinkStart 1.6s ease-in-out infinite; }
-.studio.end-selected.blinking   { animation: gentleBlinkEnd   1.6s ease-in-out infinite; }
-
-/* (선택) 공용 깜빡임 훅 */
-@keyframes gentleBlink {
-  0%, 100% { filter: none; }
-  50%      { filter: brightness(1.04); }
+/* 클래스 적용 */
+.studio.start-selected.blinking {
+  animation: gentleBlinkStart 1.6s ease-in-out infinite;
+}
+.studio.end-selected.blinking {
+  animation: gentleBlinkEnd 1.6s ease-in-out infinite;
 }

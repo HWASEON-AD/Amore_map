@@ -3,8 +3,6 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000; // Render 등 클라우드 환경 지원
 
-////
-
 // 현재 폴더를 정적(static)으로 서비스
 app.use(express.static(__dirname));
 app.use(cors());
